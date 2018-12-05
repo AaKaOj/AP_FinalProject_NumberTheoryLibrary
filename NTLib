@@ -128,4 +128,20 @@ int countPrimeFactors (int n)
     return count;
 }
 
+int modAdd (int a, int b, int mod)
+{
+    int sum=a+b;
+    return (sum%mod);
+}
 
+int subMod (int a, int b, int mod)
+{
+    int diff=a-b;
+    return(diff%mod);
+}
+
+int multiplyMod (int a, int b, int mod)
+{
+    int prod=a*b;
+    return (prod%mod);
+}
