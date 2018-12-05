@@ -28,8 +28,8 @@ int nextPrime(int n)
 
 int prevPrime(int n)
 {
-    if(n<=1)
-    printf("Invalid input\n");
+    if(n<=2)
+    	return 2;
     else
     {
         for (int i=n-1; i>1 ; i--)
@@ -274,4 +274,20 @@ int gcd(int a, int b)
 int lcm(int c, int d)
 {
 	return abs(c*d)/gcd(c, d);
+}
+
+int arrayGCD(int nums[], int n) 
+{ 
+    int g = nums[0]; 
+    for (int i = 1; i < n; i++) 
+        g = gcd(nums[i], g); 
+    return g; 
+} 
+
+int arrayLCM(int nums[], int n)
+{ 
+    int l = nums[0]; 
+    for (int i = 1; i < n; i++) 
+        l = lcm(nums[i], l); 
+    return l;
 }
