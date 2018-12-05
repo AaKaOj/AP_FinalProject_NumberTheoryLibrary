@@ -106,4 +106,26 @@ int modExp(int a, int b, int mod)
    return modula(num, mod);
 }
 
+int countFactors (int n)
+{
+    int count=0;
+    for(int i=1; i<=n; i++)
+    {
+        if (n%i==0)
+            count++;
+    }
+    return count;
+}
+
+int countPrimeFactors (int n)
+{
+    int count=0;
+    for(int i=1; i<=n; i++)
+    {
+        if (n%i==0 && isPrime(i))
+            count++;
+    }
+    return count;
+}
+
 
