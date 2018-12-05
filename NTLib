@@ -73,3 +73,36 @@ int sumUpto(int n)
     int sum= (n*(n+1))/2;
     return sum;
 }
+
+int inverseMod(int a, int m) 
+{ 
+    a = modulo(a,m); 
+    for (int x=1; x<m; x++) 
+       if ((a*x) % m == 1) 
+          return x; 
+} 
+
+bool areCoPrime(int a, int b)
+{
+    int gcd=GCD(a,b);
+    if (gcd==1)
+        return true;
+    else
+        return false;
+}
+
+int exponent(int a, int b)
+{
+    int e=1;
+    for(int i=0; i<b; i++)
+    {
+        e*=a;
+    }
+    return e;
+}
+
+int ModExp(int a, int b, int mod)
+{
+   int num=exponent(a,b);
+   return modula(num, mod);
+}
