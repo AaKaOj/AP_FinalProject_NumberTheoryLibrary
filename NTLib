@@ -146,6 +146,10 @@ int multiplyMod (int a, int b, int mod)
     return (prod%mod);
 }
 
+
+
+//Functions in MODULAR ARITHMETIC
+
 //function to calculate 'a modulo b' or 'a mod b', b > 0.
 //this function essentially does the job of the modulo operator i.e. '%'.
 //it calculates the remainder when a is divided by b. That is, it gives us the 'r' in: 'a = bq + r'.
@@ -232,3 +236,42 @@ void QRtheorem(int a, int b)
 	}	
 }
 
+//Functions in FACTORING ALGORITHMS
+
+//function to calculate GCD of two integers
+int gcd(int a, int b)
+{
+	a = abs(a);
+	b = abs(b);
+	int c, hcf;
+	if(a > 0 && b > 0)
+    {
+    	if(a < b)
+    	{
+    		c = a;    
+    	}
+    	else
+    	{
+     		c = b;
+    	}
+    	for(int i = 1; i <= c; i++)
+    	{
+     		if(a % i == 0 && b % i == 0)
+     		{
+     			hcf = i;
+     		}
+    	}
+    	return hcf;
+    }
+    else
+    {
+    	return a + b;
+    }
+}
+
+//function to calculate the LCM of two integers
+//Note: LCM(a, b) = a*b/GCD(a, b)
+int lcm(int c, int d)
+{
+	return abs(c*d)/gcd(c, d);
+}
