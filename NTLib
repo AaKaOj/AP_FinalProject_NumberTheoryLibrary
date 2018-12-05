@@ -145,3 +145,90 @@ int multiplyMod (int a, int b, int mod)
     int prod=a*b;
     return (prod%mod);
 }
+
+//function to calculate 'a modulo b' or 'a mod b', b > 0.
+//this function essentially does the job of the modulo operator i.e. '%'.
+//it calculates the remainder when a is divided by b. That is, it gives us the 'r' in: 'a = bq + r'.
+int calculatemod(int a, int b)
+{
+	//Note: I am assuming that modulus operations can't take place for negative divisors i.e. b must be positive.
+	if(b <= 0)
+	{
+		printf("");
+		printf("Operation not possible since in 'a (mod b)', b must be postive.\n"); 
+		return -1;
+	}
+	//'a mod b = 0' for all values of a if b = 1.
+	else if(b == 1)
+	{
+		return 0;
+	}
+	//if b is positive and not equal to a.
+	else
+	{
+		//if a is positive but less than b then 'a mod b' is equal to a.
+		if(a > 0 && a < b)
+		{
+			return a;
+		}
+		//NOTE: Some computer programs/languages such as C, R, etc, sometimes give a negative modulus.
+		//However, we are going by the assumption that modulus only takes non-negative values.
+		//if a is negative.
+		else if(a < 0)
+		{
+			//as long as a is negative, keep adding b to it. After that, a mod b = a.
+			while(a < 0)
+			{
+				a += b;
+			}
+			return a;
+		}
+		//if a is greater than equal to b.
+		else
+		{
+			//keep subtracting b from a until a < b. After that, a mod b = a.
+			while(a >= b)
+			{
+				a -= b;
+			}
+			return a;
+		}
+	}
+}
+
+//function to check if 'a is congruent to b (modulo n)'.
+void congruence(int a, int b, int n)
+{
+	if(calculatemod(a, n) == -1 || calculatemod(b, n) == -1)
+	{
+		printf("Operation not possible as the b in 'a (mod b)' must be positive.\n");
+		return;
+	}
+	if(calculatemod(a, n) == calculatemod(b, n))
+	{
+			printf("%d is congruent to %d (modulo %d).\n", a, b, n);
+	}
+	else
+	{
+		printf("%d is not congruent to %d (modulo %d).\n", a, b, n);
+	}
+}
+
+//Function for the Quotient Remainder Theorem.
+//According to this theorem: 
+//Given any integer a, and a positive integer b, there exist unique integers q and r such that
+//a = b*q + r, where 0 <= r < b
+void QRtheorem(int a, int b)
+{
+	if(b < 0)
+	{
+		printf("Invalid input, since 0 <= Integer 2\n");
+	}
+	else
+	{
+		int r = calculatemod(a, b);
+		int q = (a - r)/b;
+		printf("q = %d and r = %d\n", q, r);
+	}	
+}
+
