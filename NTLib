@@ -8,6 +8,98 @@ typedef struct
    int quotient, remain; 
 }QRT;
 
+long factorial (int n)
+{
+    int fact=1;
+    for (int i=n; i>0; i--)
+    {
+        fact*=i;
+    }
+    return fact;
+}
+
+int sumUpto(int n)
+{
+    int sum= (n*(n+1))/2;
+    return sum;
+}
+
+int exponent(int a, int b)
+{
+    int e=1;
+    for(int i=0; i<b; i++)
+    {
+        e*=a;
+    }
+    return e;
+}
+
+int* sortArray(int *arr, int n)
+{
+    int temp;
+    for (int i=0; i<n ; i++)
+    {
+      for (int j = i + 1; j < n; j++)
+      {
+          if (arr[i] > arr[j])
+          {
+              temp=arr[i];
+              arr[i] = arr[j];
+              arr[j] = temp;
+          }
+      }
+  }
+  return arr;
+}
+
+//function to calculate GCD of two integers
+int gcd(int a, int b)
+{
+	a = abs(a);
+	b = abs(b);
+	int c, hcf;
+	if(a > 0 && b > 0)
+    	{
+    		if(a < b)
+    			c = a;    
+    		else
+    			c = b;
+    		for(int i = 1; i <= c; i++)
+    		{
+     			if(a % i == 0 && b % i == 0)
+     				{
+     					hcf = i;
+     				}
+    		}
+    		return hcf;
+    	}
+   	else
+    		return a + b;
+}
+
+//function to calculate the LCM of two integers
+//Note: LCM(a, b) = a*b/GCD(a, b)
+int lcm(int a, int b)
+{
+	return abs(a*b)/gcd(a, b);
+}
+
+int arrayGCD(int nums[], int n) 
+{ 
+    int g = nums[0]; 
+    for (int i = 1; i < n; i++) 
+        g = gcd(nums[i], g); 
+    return g; 
+} 
+
+int arrayLCM(int nums[], int n)
+{ 
+    int l = nums[0]; 
+    for (int i = 1; i < n; i++) 
+        l = lcm(nums[i], l); 
+    return l;
+}
+
 bool isPrime(int n)
 {
     bool flag=true;
@@ -21,6 +113,15 @@ bool isPrime(int n)
     if (n==1)
         flag = false;
     return flag;
+}
+
+bool areCoPrime(int a, int b)
+{
+    int g=gcd(a,b);
+    if (g==1)
+        return true;
+    else
+        return false;
 }
 
 int nextPrime(int n)
@@ -63,103 +164,55 @@ int nearestPrime(int n)
     }
 }
 
-long factorial (int n)
+int* listPrimes (int n)
 {
-    int fact=1;
-    for (int i=n; i>0; i--)
+    int index=0;
+    int *p;
+    do
     {
-        fact*=i;
-    }
-    return fact;
-}
-
-int sumUpto(int n)
-{
-    int sum= (n*(n+1))/2;
-    return sum;
-}
-
-int inverseMod(int a, int m) 
-{ 
-    a = modulo(a,m); 
-    for (int x=1; x<m; x++) 
-       if ((a*x) % m == 1) 
-          return x; 
-} 
-
-bool areCoPrime(int a, int b)
-{
-    int gcd=GCD(a,b);
-    if (gcd==1)
-        return true;
-    else
-        return false;
-}
-
-int exponent(int a, int b)
-{
-    int e=1;
-    for(int i=0; i<b; i++)
+        p=(int*)malloc(n*sizeof(int));
+    }while(p==NULL);
+    for(int i=2; index<n; i++)
     {
-        e*=a;
+        if(isPrime(i))
+        {
+            p[index++]=i;
+        }
     }
-    return e;
+    sortArray(p, n);
+    return p;
 }
 
-int modExp(int a, int b, int mod)
-{
-   int num=exponent(a,b);
-   return modula(num, mod);
-}
-
-int modSquare(int a, int mod)
-{
-   int num=a*a;
-   return num%mod;
-}
-
-
-int countFactors (int n)
+int countPrimesTill (int n)
 {
     int count=0;
-    for(int i=1; i<=n; i++)
+    for (int i=1; i<abs(n); i++)
     {
-        if (n%i==0)
+        if(isPrime(i))
             count++;
     }
     return count;
 }
 
-int countPrimeFactors (int n)
+int* listPrimesTill (int n)
 {
-    int count=0;
-    for(int i=1; i<=n; i++)
+    int index=0;
+    int c=countPrimesTill(n);
+    int *p;
+    do
     {
-        if (n%i==0 && isPrime(i))
-            count++;
+        p=(int*)malloc(c*sizeof(int));
+    }while(p==NULL);
+    for(int i=2; i<n; i++)
+    {
+        if(isPrime(i))
+        {
+            p[index++]=i;
+        }
     }
-    return count;
+    sortArray(p, c);
+    return p;
 }
-
-int modAdd (int a, int b, int mod)
-{
-    int sum=a+b;
-    return (sum%mod);
-}
-
-int subMod (int a, int b, int mod)
-{
-    int diff=a-b;
-    return(diff%mod);
-}
-
-int multiplyMod (int a, int b, int mod)
-{
-    int prod=a*b;
-    return (prod%mod);
-}
-
-//Functions in MODULAR ARITHMETIC
 
 //function to calculate 'a modulo b' or 'a mod b', b > 0.
 //this function essentially does the job of the modulo operator i.e. '%'.
@@ -205,7 +258,7 @@ int getMod(int a, int b)
 				a += b;
 		}
 		else 		//if a is greater than equal to b.
-		{ //keep subtracting b from a until a < b. After that, a mod b = a. 
+		{ //keep tracting b from a until a < b. After that, a mod b = a. 
 			while(a >= b)			
 				a -= b;
 		}
@@ -228,14 +281,42 @@ bool isCongruent(int a, int b, int n)
 	}
 }
 
-int discreteLogarithm(int a, int b, int mod)
+int addMod (int a, int b, int mod)
 {
-    for (int i=0; i<mod; i++)
-    {
-        if(isCongruent(exponent(a,i), b, mod))
-            return i;
-    }
-    return -1;
+    int sum=a+b;
+    return (sum%mod);
+}
+
+int subMod (int a, int b, int mod)
+{
+    int diff=a-b;
+    return(diff%mod);
+}
+
+int multiplyMod (int a, int b, int mod)
+{
+    int prod=a*b;
+    return (prod%mod);
+}
+
+int inverseMod(int a, int m) 
+{ 
+    a = getMod(a,m); 
+    for (int x=1; x<m; x++) 
+       if ((a*x) % m == 1) 
+          return x; 
+} 
+
+int expMod(int a, int b, int mod)
+{
+   int num=exponent(a,b);
+   return getMod(num, mod);
+}
+
+int squareMod(int a, int mod)
+{
+   int num=a*a;
+   return getMod(a,mod);
 }
 
 //Function for the Quotient Remainder Theorem.
@@ -245,83 +326,31 @@ int discreteLogarithm(int a, int b, int mod)
 QRT QRtheorem(int a, int b)
 {
 	QRT x;
-	x.remain = calculatemod(a, b);
+	x.remain = getMod(a, b);
 	x.quotient = (a - x.remain)/b;
 	return x;
 }
 
-//Functions in FACTORING ALGORITHMS
-
-//function to calculate GCD of two integers
-int gcd(int a, int b)
+int countFactors (int n)
 {
-	a = abs(a);
-	b = abs(b);
-	int c, hcf;
-	if(a > 0 && b > 0)
+    int count=0;
+    for(int i=1; i<=n; i++)
     {
-    	if(a < b)
-    	{
-    		c = a;    
-    	}
-    	else
-    	{
-     		c = b;
-    	}
-    	for(int i = 1; i <= c; i++)
-    	{
-     		if(a % i == 0 && b % i == 0)
-     		{
-     			hcf = i;
-     		}
-    	}
-    	return hcf;
+        if (n%i==0)
+            count++;
     }
-    else
+    return count;
+}
+
+int countPrimeFactors (int n)
+{
+    int count=0;
+    for(int i=1; i<=n; i++)
     {
-    	return a + b;
+        if (n%i==0 && isPrime(i))
+            count++;
     }
-}
-
-//function to calculate the LCM of two integers
-//Note: LCM(a, b) = a*b/GCD(a, b)
-int lcm(int c, int d)
-{
-	return abs(c*d)/gcd(c, d);
-}
-
-int arrayGCD(int nums[], int n) 
-{ 
-    int g = nums[0]; 
-    for (int i = 1; i < n; i++) 
-        g = gcd(nums[i], g); 
-    return g; 
-} 
-
-int arrayLCM(int nums[], int n)
-{ 
-    int l = nums[0]; 
-    for (int i = 1; i < n; i++) 
-        l = lcm(nums[i], l); 
-    return l;
-}
-
-int* sortArray(int *arr, int n)
-{
-    int temp;
-    for (int i=0; i<n ; i++)
-    {
-      for (int j = i + 1; j < n; j++)
-      {
-          if (arr[i] > arr[j])
-          {
-              temp=arr[i];
-              arr[i] = arr[j];
-              arr[j] = temp;
-          }
-      }
-  }
-  return arr;
+    return count;
 }
 
 int* listFactors (int n)
@@ -362,7 +391,6 @@ int* listPrimeFactors (int n)
             index++;
         }
     }
-    displayArray(p, count);
     return p;
 }
 
@@ -412,63 +440,14 @@ int* primeFactorize(int n)
         }
     }
     return factorization;
-    
-}
-int main()
-{
-    int* a=primeFactorize(420);
-    int count = countPrimeFactors(420);
-    displayArray(a, 10);
 }
 
-int countPrimesTill (int n)
+int discreteLogarithm(int a, int b, int mod)
 {
-    int count=0;
-    for (int i=1; i<abs(n); i++)
+    for (int i=0; i<mod; i++)
     {
-        if(isPrime(i))
-            count++;
+        if(isCongruent(exponent(a,i), b, mod))
+            return i;
     }
-    return count;
+    return -1;
 }
-
-int* listPrimesTill (int n)
-{
-    int index=0;
-    int c=countPrimesTill(n);
-    int *p;
-    do
-    {
-        p=(int*)malloc(c*sizeof(int));
-    }while(p==NULL);
-    for(int i=2; i<n; i++)
-    {
-        if(isPrime(i))
-        {
-            p[index++]=i;
-        }
-    }
-    sortArray(p, c);
-    return p;
-}
-
-int* listPrimes (int n)
-{
-    int index=0;
-    int *p;
-    do
-    {
-        p=(int*)malloc(n*sizeof(int));
-    }while(p==NULL);
-    for(int i=2; index<n; i++)
-    {
-        if(isPrime(i))
-        {
-            p[index++]=i;
-        }
-    }
-    sortArray(p, n);
-    return p;
-}
-
-
